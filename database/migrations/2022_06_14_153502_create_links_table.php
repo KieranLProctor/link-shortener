@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained();
             $table->string('code');
             $table->string('url');
+            $table->dateTime('expired_at')->nullable();
             $table->timestamps();
         });
     }

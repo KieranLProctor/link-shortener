@@ -14,7 +14,12 @@ class Link extends Model
     protected $fillable = [
         'user_id',
         'code',
-        'url'
+        'url',
+        'expired_at'
+    ];
+
+    protected $casts = [
+        'expired_at' => 'datetime'
     ];
 
     public function getRouteKeyName()
