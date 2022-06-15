@@ -17,7 +17,11 @@ class LinkController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Links/Index', ['links' => auth()->user()->links]);
+        $links = Link::where('user_id', auth()->id())->with('visitors')->get();
+
+        return Inertia::render('Links/Index', ['links' => $links]);
+
+        // return Inertia::render('Links/Index', ['links' => auth()->user()->links]);
     }
 
     /**
@@ -27,7 +31,7 @@ class LinkController extends Controller
      */
     public function create()
     {
-
+        return Inertia::render('Links/Create');
     }
 
     /**
@@ -39,13 +43,19 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         // At some point need to improve this to check if the code already exists.
-        $link = Link::create([
+        $validated = $request->validate([
+            'url' => ['required']
+        ]);
+
+        Link::create([
             'user_id' => auth()->id(),
-            'url' => $request->url,
+            'url' => $validated["url"],
             'code' => Str::random(6)
         ]);
 
-        return redirect()->back('links.info')->with($link);
+        // return redirect()->route('links.index')->with('message', 'Successfully shortened link!');
+
+        return back()->with('message', 'Successfully shortened link!');
     }
 
     /**

@@ -34,7 +34,7 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/links', [LinkController::class, 'index'])->name('links.index');
+    Route::resource('/links', LinkController::class);
     Route::get('/links/{link}/info', [LinkController::class, 'info'])->name('links.info');
 });
 
