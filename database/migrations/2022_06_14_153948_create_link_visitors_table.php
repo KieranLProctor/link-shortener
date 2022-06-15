@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable()->constrained(); // This is to see if users of the shortener are also visiting the links.
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
-            $table->text('payload');
             $table->timestamps();
         });
     }

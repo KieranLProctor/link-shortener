@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
+use App\Models\LinkVisitor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class LinkController extends Controller
 {
@@ -16,7 +17,7 @@ class LinkController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Links/Index', ['links' => Auth::user()->links]);
+        return Inertia::render('Links/Index', ['links' => auth()->user()->links]);
     }
 
     /**
@@ -26,7 +27,7 @@ class LinkController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -37,7 +38,14 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // At some point need to improve this to check if the code already exists.
+        $link = Link::create([
+            'user_id' => auth()->id(),
+            'url' => $request->url,
+            'code' => Str::random(6)
+        ]);
+
+        return redirect()->back('links.info')->with($link);
     }
 
     /**
@@ -48,7 +56,14 @@ class LinkController extends Controller
      */
     public function show(Link $link)
     {
-        //
+        LinkVisitor::create([
+            'link_id' => $link->id,
+            'user_id' => auth()->id() ?? null,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent()
+        ]);
+
+        return redirect()->away($link->url);
     }
 
     /**
@@ -59,7 +74,7 @@ class LinkController extends Controller
      */
     public function edit(Link $link)
     {
-        //
+
     }
 
     /**

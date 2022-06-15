@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LinkController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,4 +33,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('/links', [LinkController::class, 'index'])->name('links.index');
+    Route::get('/links/{link}/info', [LinkController::class, 'info'])->name('links.info');
 });
+
+Route::get('/{link}', [LinkController::class, 'show'])->name('links.show');

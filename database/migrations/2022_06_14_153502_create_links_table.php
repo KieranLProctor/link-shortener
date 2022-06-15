@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('links', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
+            $table->string('code');
             $table->string('url');
             $table->timestamps();
         });
