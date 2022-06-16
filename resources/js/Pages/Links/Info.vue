@@ -2,7 +2,7 @@
     <AppLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Link Info
+                Link Info #{{ link.code }}
             </h2>
         </template>
 

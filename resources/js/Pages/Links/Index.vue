@@ -2,7 +2,7 @@
     <AppLayout title="Links">
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight align-middle">
                     Links <span class="text-xs">(Total: {{ links.length }})</span>
                 </h2>
 
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="mt-6 space-y-2">
-                    <Link v-for="link in links" :key="link.code" :href="link.url"
+                    <Link v-for="link in links" :key="link.code" :href="route('links.info', link)"
                           class="px-4 py-2 bg-white shadow overflow-hidden tablet:px-6 tablet:py-4 block">
                         <!-- TODO: Change this to be the actual url in the .env (like this for testing purposes) -->
                         URL: {{ link.url }} | Short URL: https://link-shortener.test/{{ link.code }}
