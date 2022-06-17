@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('url');
             $table->dateTime('expired_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

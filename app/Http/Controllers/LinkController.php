@@ -15,13 +15,6 @@ class LinkController extends Controller
         $links = Link::where('user_id', auth()->id())->with('visitors')->get();
 
         return Inertia::render('Links/Index', ['links' => $links]);
-
-        // return Inertia::render('Links/Index', ['links' => auth()->user()->links]);
-    }
-
-    public function create()
-    {
-        return Inertia::render('Links/Create');
     }
 
     public function store(Request $request)
@@ -45,7 +38,7 @@ class LinkController extends Controller
 
     public function show(Link $link)
     {
-        if(now() >= $link->expired_at)
+        if(now() >= $link->expired_at || $link->trashed())
         {
             abort(404);
         }
@@ -65,18 +58,29 @@ class LinkController extends Controller
         return Inertia::render('Links/Info', ['link' => $link]);
     }
 
-    public function edit(Link $link)
-    {
-
-    }
-
     public function update(Request $request, Link $link)
     {
-        //
+        if(auth()->id() != $link->user_id)
+        {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $validated = $request->validate([
+            'url' => ['required']
+        ]);
+
+        $link->update($validated);
     }
 
     public function destroy(Link $link)
     {
-        //
+        if(auth()->id() != $link->user_id)
+        {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $link->delete();
+
+        return redirect()->route('links.index')->with('message', 'Successfully deleted link!');
     }
 }
