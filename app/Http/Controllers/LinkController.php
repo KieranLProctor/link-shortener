@@ -31,7 +31,16 @@ class LinkController extends Controller
             'expired_at' => now()->addMonth(),
         ]);
 
-        // return redirect()->route('links.index')->with('message', 'Successfully shortened link!');
+        if(!$link)
+        {
+            session()->flash('flash.banner', 'Error shortening link!');
+            session()->flash('flash.bannerStyle', 'success');
+
+            return redirect()->back();
+        }
+
+        session()->flash('flash.banner', 'Successfully shortened link!');
+        session()->flash('flash.bannerStyle', 'success');
 
         return redirect()->back()->with('link', $link);
     }
