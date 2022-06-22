@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <JetDialogModal :show="isUpdatingLink" @close="isUpdatingLink.value = false">
+        <JetDialogModal :show="isUpdatingLink" @close="isUpdatingLink = false">
             <template #title>
                 Update Link
             </template>

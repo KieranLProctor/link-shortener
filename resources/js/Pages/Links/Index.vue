@@ -61,7 +61,7 @@
         </div>
 
         <!-- <JetDialogModal :show="isCreatingLink" @close="isCreatingLink = false"> -->
-        <JetDialogModal :show="isCreatingLink" @close="isCreatingLink.value = false">
+        <JetDialogModal :show="isCreatingLink" @close="isCreatingLink = false">
             <template #title>
                 Shorten Link
             </template>
