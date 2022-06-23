@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Link;
 use App\Models\LinkVisitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -12,14 +13,14 @@ class LinkController extends Controller
 {
     public function index()
     {
-        $links = Link::where('user_id', auth()->id())->with('visitors')->get();
+        $links = Auth::user()->links;
 
         return Inertia::render('Links/Index', ['links' => $links]);
     }
 
     public function store(Request $request)
     {
-        // At some point need to improve this to check if the code already exists.
+        // At some point need to improve this to check if the code already exists && move into a request.
         $validated = $request->validate([
             'url' => ['required']
         ]);
@@ -47,11 +48,6 @@ class LinkController extends Controller
 
     public function show(Link $link)
     {
-        if(now() >= $link->expired_at || $link->trashed())
-        {
-            abort(404);
-        }
-
         LinkVisitor::create([
             'link_id' => $link->id,
             'user_id' => auth()->id() ?? null,
@@ -59,12 +55,18 @@ class LinkController extends Controller
             'user_agent' => request()->userAgent()
         ]);
 
+        // This is below as we still want to log a visit to the link - it just shouldn't redirect.
+        if(now() >= $link->expired_at || $link->trashed())
+        {
+            abort(404);
+        }
+
         return redirect()->away($link->url);
     }
 
     public function info(Link $link)
     {
-        return Inertia::render('Links/Info', ['link' => $link]);
+        return Inertia::render('Links/Info', ['link' => $link->with('visitors')->get()]);
     }
 
     public function update(Request $request, Link $link)
