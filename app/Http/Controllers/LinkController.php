@@ -6,8 +6,8 @@ use App\Models\Link;
 use App\Models\LinkVisitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class LinkController extends Controller
 {
@@ -22,18 +22,17 @@ class LinkController extends Controller
     {
         // At some point need to improve this to check if the code already exists && move into a request.
         $validated = $request->validate([
-            'url' => ['required']
+            'url' => ['required'],
         ]);
 
         $link = Link::create([
             'user_id' => auth()->id(),
-            'url' => $validated["url"],
+            'url' => $validated['url'],
             'code' => Str::random(6),
             'expired_at' => now()->addMonth(),
         ]);
 
-        if(!$link)
-        {
+        if (! $link) {
             session()->flash('flash.banner', 'Error shortening link!');
             session()->flash('flash.bannerStyle', 'success');
 
@@ -52,12 +51,11 @@ class LinkController extends Controller
             'link_id' => $link->id,
             'user_id' => auth()->id() ?? null,
             'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent()
+            'user_agent' => request()->userAgent(),
         ]);
 
         // This is below as we still want to log a visit to the link - it just shouldn't redirect.
-        if(now() >= $link->expired_at || $link->trashed())
-        {
+        if (now() >= $link->expired_at || $link->trashed()) {
             abort(404);
         }
 
@@ -71,13 +69,12 @@ class LinkController extends Controller
 
     public function update(Request $request, Link $link)
     {
-        if(auth()->id() != $link->user_id)
-        {
+        if (auth()->id() != $link->user_id) {
             abort(403, 'Unauthorized action.');
         }
 
         $validated = $request->validate([
-            'url' => ['required']
+            'url' => ['required'],
         ]);
 
         $link->update($validated);
@@ -85,8 +82,7 @@ class LinkController extends Controller
 
     public function destroy(Link $link)
     {
-        if(auth()->id() != $link->user_id)
-        {
+        if (auth()->id() != $link->user_id) {
             abort(403, 'Unauthorized action.');
         }
 

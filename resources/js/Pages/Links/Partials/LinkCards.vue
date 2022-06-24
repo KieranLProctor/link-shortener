@@ -36,7 +36,7 @@
 
                     <div class="flex items-center justify-between mt-7">
                         <div>
-                            <LinkStatus :status="link.expired_at <= date.toString() ? 'Active' : 'Expired'" />
+                            <LinkStatus :status="link.is_expired ? 'Expired' : 'Active'" />
                         </div>
                         <div>
                             <span class="relative">
@@ -97,7 +97,7 @@
                 </div>
                 <div class="flex items-center">
                     <div class="ml-6">
-                        <LinkStatus :status="link.expired_at <= date ? 'Active' : 'Expired'" />
+                        <LinkStatus :status="link.is_expired ? 'Expired' : 'Active'" />
                     </div>
                     <div class="ml-6 pt-1">
                         <span class="relative">
@@ -127,9 +127,4 @@ defineProps({
     isGridView: Boolean,
     links: Object,
 });
-
-const date = new Date();
-const isExpired = (expiry, current) => {
-    expiry.toString('YYYY.MM.DD HH:mm');
-}
 </script>

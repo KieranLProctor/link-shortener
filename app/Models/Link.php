@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,11 +19,13 @@ class Link extends Model
         'user_id',
         'code',
         'url',
-        'expired_at'
+        'expired_at',
     ];
 
+    protected $appends = ['is_expired'];
+
     protected $casts = [
-        'expired_at' => 'datetime'
+        'expired_at' => 'datetime',
     ];
 
     public function getRouteKeyName()
@@ -37,5 +41,12 @@ class Link extends Model
     public function visitors(): HasMany
     {
         return $this->hasMany(LinkVisitor::class);
+    }
+
+    protected function isExpired(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $attributes['expired_at'] <= Carbon::now() ? true : false
+        );
     }
 }

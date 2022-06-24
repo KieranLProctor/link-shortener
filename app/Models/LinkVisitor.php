@@ -13,6 +13,6 @@ class LinkVisitor extends Model
         'link_id',
         'user_id',
         'ip_address',
-        'user_agent'
+        'user_agent',
     ];
 }

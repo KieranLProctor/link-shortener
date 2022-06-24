@@ -23757,15 +23757,7 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
-    var date = new Date();
-
-    var isExpired = function isExpired(expiry, current) {
-      expiry.toString('YYYY.MM.DD HH:mm');
-    };
-
     var __returned__ = {
-      date: date,
-      isExpired: isExpired,
       LinkStatus: _Pages_Links_Partials_LinkStatus_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
@@ -28071,7 +28063,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ), _hoisted_13], 8
     /* PROPS */
     , _hoisted_12)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["LinkStatus"], {
-      status: link.expired_at <= $setup.date.toString() ? 'Active' : 'Expired'
+      status: link.is_expired ? 'Expired' : 'Active'
     }, null, 8
     /* PROPS */
     , ["status"])]), _hoisted_15])])]);
@@ -28099,7 +28091,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ), _hoisted_28], 8
     /* PROPS */
     , _hoisted_27)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["LinkStatus"], {
-      status: link.expired_at <= $setup.date ? 'Active' : 'Expired'
+      status: link.is_expired ? 'Expired' : 'Active'
     }, null, 8
     /* PROPS */
     , ["status"])]), _hoisted_31])])], 8
