@@ -14,7 +14,7 @@
         </template>
 
         <div>
-            <div class="max-w-7xl mx-auto py-8 tablet:px-6 desktop:px-8">
+            <div class="max-w-7xl mx-auto py-4 px-4 tablet:py-8 tablet:px-6 desktop:px-8">
                 <div class="flex justify-between mt-3 w-full">
                     <div class="flex">
                         <label class="relative flex items-center text-gray-400 focus-within:text-gray-500">

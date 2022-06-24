@@ -2,7 +2,7 @@
     <!-- Grid View -->
     <div class="mt-6" :hidden="!isGridView">
         <div class="flex flex-wrap -m-2">
-            <div v-for="link in links" :key="link.code" class="flex flex-col w-1/4">
+            <div v-for="link in links" :key="link.code" class="flex flex-col w-1/2 tablet:w-1/3 desktop:w-1/4">
                 <div class="flex flex-auto flex-col m-2 p-6 bg-white shadow-sm">
                     <div class="flex items-center">
                         <div class="truncate">
@@ -38,22 +38,37 @@
                         <div>
                             <LinkStatus :status="link.is_expired ? 'Expired' : 'Active'" />
                         </div>
-                        <div>
-                            <span class="relative">
-                                <button class="rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer">
-                                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                        class="p-1 h-6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M5.83325 3.49999C5.83325 2.85566 6.35559 2.33333 6.99992 2.33333C7.64425 2.33333 8.16658 2.85566 8.16658 3.49999C8.16658 4.14433 7.64425 4.66666 6.99992 4.66666C6.35559 4.66666 5.83325 4.14433 5.83325 3.49999ZM6.99992 5.83333C6.35559 5.83333 5.83325 6.35566 5.83325 6.99999C5.83325 7.64433 6.35559 8.16666 6.99992 8.16666C7.64425 8.16666 8.16658 7.64433 8.16658 6.99999C8.16658 6.35566 7.64425 5.83333 6.99992 5.83333ZM5.83325 10.5C5.83325 9.85566 6.35559 9.33333 6.99992 9.33333C7.64425 9.33333 8.16658 9.85566 8.16658 10.5C8.16658 11.1443 7.64425 11.6667 6.99992 11.6667C6.35559 11.6667 5.83325 11.1443 5.83325 10.5Z"
-                                            fill="currentColor">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <div class="forge-dropdown z-10 right-0 w-52 origin-top-right" style="display: none;">
-                                    <button class="forge-dropdown-item text-gray-900">Refresh
-                                        Status</button>
-                                </div>
-                            </span>
+                        <div class="ml-3 relative">
+                            <JetDropdown align="right" width="36">
+                                <template #trigger>
+                                    <button class="rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer">
+                                        <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                            class="p-1 h-6">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M5.83325 3.49999C5.83325 2.85566 6.35559 2.33333 6.99992 2.33333C7.64425 2.33333 8.16658 2.85566 8.16658 3.49999C8.16658 4.14433 7.64425 4.66666 6.99992 4.66666C6.35559 4.66666 5.83325 4.14433 5.83325 3.49999ZM6.99992 5.83333C6.35559 5.83333 5.83325 6.35566 5.83325 6.99999C5.83325 7.64433 6.35559 8.16666 6.99992 8.16666C7.64425 8.16666 8.16658 7.64433 8.16658 6.99999C8.16658 6.35566 7.64425 5.83333 6.99992 5.83333ZM5.83325 10.5C5.83325 9.85566 6.35559 9.33333 6.99992 9.33333C7.64425 9.33333 8.16658 9.85566 8.16658 10.5C8.16658 11.1443 7.64425 11.6667 6.99992 11.6667C6.35559 11.6667 5.83325 11.1443 5.83325 10.5Z"
+                                                fill="currentColor">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </template>
+
+                                <template #content>
+                                    <!-- Link Management -->
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        Manage Link
+                                    </div>
+
+                                    <button type="button" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition" @click="isCreatingLink = !isCreatingLink">Edit</button>
+
+                                    <JetDropdownLink>
+                                        Edit
+                                    </JetDropdownLink>
+
+                                    <JetDropdownLink>
+                                        Delete
+                                    </JetDropdownLink>
+                                </template>
+                            </JetDropdown>
                         </div>
                     </div>
                 </div>
@@ -99,19 +114,35 @@
                     <div class="ml-6">
                         <LinkStatus :status="link.is_expired ? 'Expired' : 'Active'" />
                     </div>
-                    <div class="ml-6 pt-1">
-                        <span class="relative">
-                            <button class="rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer"><svg
-                                    viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="p-1 h-6">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M5.83325 3.49999C5.83325 2.85566 6.35559 2.33333 6.99992 2.33333C7.64425 2.33333 8.16658 2.85566 8.16658 3.49999C8.16658 4.14433 7.64425 4.66666 6.99992 4.66666C6.35559 4.66666 5.83325 4.14433 5.83325 3.49999ZM6.99992 5.83333C6.35559 5.83333 5.83325 6.35566 5.83325 6.99999C5.83325 7.64433 6.35559 8.16666 6.99992 8.16666C7.64425 8.16666 8.16658 7.64433 8.16658 6.99999C8.16658 6.35566 7.64425 5.83333 6.99992 5.83333ZM5.83325 10.5C5.83325 9.85566 6.35559 9.33333 6.99992 9.33333C7.64425 9.33333 8.16658 9.85566 8.16658 10.5C8.16658 11.1443 7.64425 11.6667 6.99992 11.6667C6.35559 11.6667 5.83325 11.1443 5.83325 10.5Z"
-                                        fill="currentColor"></path>
-                                </svg>
-                            </button>
-                            <div class="forge-dropdown z-10 right-0 w-52 origin-top-right" style="display: none;">
-                                <button class="forge-dropdown-item text-gray-900">Refresh Status</button>
-                            </div>
-                        </span>
+                    <div class="ml-6 relative pt-1">
+                        <JetDropdown align="right" width="36">
+                            <template #trigger>
+                                <button class="rounded-full text-gray-600 hover:bg-gray-200 cursor-pointer">
+                                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                        class="p-1 h-6">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M5.83325 3.49999C5.83325 2.85566 6.35559 2.33333 6.99992 2.33333C7.64425 2.33333 8.16658 2.85566 8.16658 3.49999C8.16658 4.14433 7.64425 4.66666 6.99992 4.66666C6.35559 4.66666 5.83325 4.14433 5.83325 3.49999ZM6.99992 5.83333C6.35559 5.83333 5.83325 6.35566 5.83325 6.99999C5.83325 7.64433 6.35559 8.16666 6.99992 8.16666C7.64425 8.16666 8.16658 7.64433 8.16658 6.99999C8.16658 6.35566 7.64425 5.83333 6.99992 5.83333ZM5.83325 10.5C5.83325 9.85566 6.35559 9.33333 6.99992 9.33333C7.64425 9.33333 8.16658 9.85566 8.16658 10.5C8.16658 11.1443 7.64425 11.6667 6.99992 11.6667C6.35559 11.6667 5.83325 11.1443 5.83325 10.5Z"
+                                            fill="currentColor">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </template>
+
+                            <template #content>
+                                <!-- Link Management -->
+                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                    Manage Link
+                                </div>
+
+                                <JetDropdownLink>
+                                    Edit
+                                </JetDropdownLink>
+
+                                <JetDropdownLink>
+                                    Delete
+                                </JetDropdownLink>
+                            </template>
+                        </JetDropdown>
                     </div>
                 </div>
             </div>
@@ -121,10 +152,13 @@
 </template>
 
 <script setup>
-import LinkStatus from '@/Pages/Links/Partials/LinkStatus.vue'
+import LinkStatus from '@/Pages/Links/Partials/LinkStatus.vue';
+import JetDropdown from '@/Jetstream/Dropdown.vue';
+import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
 
 defineProps({
     isGridView: Boolean,
     links: Object,
+    isCreatingLink: Boolean
 });
 </script>

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateLinkRequest;
 use App\Models\Link;
 use App\Models\LinkVisitor;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -18,12 +18,9 @@ class LinkController extends Controller
         return Inertia::render('Links/Index', ['links' => $links]);
     }
 
-    public function store(Request $request)
+    public function store(StoreUpdateLinkRequest $request)
     {
-        // At some point need to improve this to check if the code already exists && move into a request.
-        $validated = $request->validate([
-            'url' => ['required'],
-        ]);
+        $validated = $request->validated();
 
         $link = Link::create([
             'user_id' => auth()->id(),
@@ -67,15 +64,13 @@ class LinkController extends Controller
         return Inertia::render('Links/Info', ['link' => $link->with('visitors')->get()]);
     }
 
-    public function update(Request $request, Link $link)
+    public function update(StoreUpdateLinkRequest $request, Link $link)
     {
         if (auth()->id() != $link->user_id) {
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
-            'url' => ['required'],
-        ]);
+        $validated = $request->validated();
 
         $link->update($validated);
     }
