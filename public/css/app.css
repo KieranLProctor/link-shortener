@@ -1058,14 +1058,8 @@ select {
 .z-40 {
   z-index: 40;
 }
-.z-10 {
-  z-index: 10;
-}
 .col-span-6 {
   grid-column: span 6 / span 6;
-}
-.float-right {
-  float: right;
 }
 .-m-2 {
   margin: -0.5rem;
@@ -1279,14 +1273,17 @@ select {
 .w-20 {
   width: 5rem;
 }
-.w-1\/4 {
-  width: 25%;
+.w-24 {
+  width: 6rem;
+}
+.w-36 {
+  width: 9rem;
+}
+.w-40 {
+  width: 10rem;
 }
 .w-3 {
   width: 0.75rem;
-}
-.w-52 {
-  width: 13rem;
 }
 .w-72 {
   width: 18rem;
@@ -1296,21 +1293,6 @@ select {
 }
 .w-2 {
   width: 0.5rem;
-}
-.w-1\/3 {
-  width: 33.333333%;
-}
-.w-2\/3 {
-  width: 66.666667%;
-}
-.w-24 {
-  width: 6rem;
-}
-.w-36 {
-  width: 9rem;
-}
-.w-40 {
-  width: 10rem;
 }
 .min-w-0 {
   min-width: 0px;
@@ -2525,42 +2507,13 @@ select {
 }
 @media (min-width: 1248px) {
 
-  .desktop\:float-right {
-    float: right;
-  }
-
   .desktop\:w-1\/4 {
     width: 25%;
-  }
-
-  .desktop\:w-1\/3 {
-    width: 33.333333%;
-  }
-
-  .desktop\:w-1\/2 {
-    width: 50%;
-  }
-
-  .desktop\:w-2\/3 {
-    width: 66.666667%;
-  }
-
-  .desktop\:flex-row {
-    flex-direction: row;
-  }
-
-  .desktop\:items-center {
-    align-items: center;
   }
 
   .desktop\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-
-  .desktop\:text-base {
-    font-size: 1rem;
-    line-height: 1.5rem;
   }
 }
 

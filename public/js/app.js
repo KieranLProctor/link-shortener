@@ -23759,8 +23759,7 @@ __webpack_require__.r(__webpack_exports__);
   __name: 'LinkCards',
   props: {
     isGridView: Boolean,
-    links: Object,
-    isCreatingLink: Boolean
+    links: Object
   },
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
@@ -27764,9 +27763,19 @@ var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit ");
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition"
+}, "Edit", -1
+/* HOISTED */
+);
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ");
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "block w-full px-4 py-2 text-sm leading-5 text-gray-700 hover:text-red-600 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition"
+}, "Delete", -1
+/* HOISTED */
+);
 
 var _hoisted_20 = {
   "class": "w-full bg-white divide-gray-100 divide-y shadow-sm mt-6"
@@ -27860,9 +27869,19 @@ var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit ");
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition"
+}, "Edit", -1
+/* HOISTED */
+);
 
-var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ");
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "block w-full px-4 py-2 text-sm leading-5 text-gray-700 hover:text-red-600 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition"
+}, "Delete", -1
+/* HOISTED */
+);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -27896,27 +27915,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return [_hoisted_16];
       }),
       content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Link Management "), _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-          type: "button",
-          "class": "block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition",
-          onClick: _cache[0] || (_cache[0] = function ($event) {
-            return $props.isCreatingLink = !$props.isCreatingLink;
-          })
-        }, "Edit"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["JetDropdownLink"], null, {
-          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-            return [_hoisted_18];
-          }),
-          _: 1
-          /* STABLE */
-
-        }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["JetDropdownLink"], null, {
-          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-            return [_hoisted_19];
-          }),
-          _: 1
-          /* STABLE */
-
-        })];
+        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Link Management "), _hoisted_17, _hoisted_18, _hoisted_19];
       }),
       _: 1
       /* STABLE */
@@ -27957,21 +27956,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return [_hoisted_36];
       }),
       content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Link Management "), _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["JetDropdownLink"], null, {
-          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-            return [_hoisted_38];
-          }),
-          _: 1
-          /* STABLE */
-
-        }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["JetDropdownLink"], null, {
-          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-            return [_hoisted_39];
-          }),
-          _: 1
-          /* STABLE */
-
-        })];
+        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Link Management "), _hoisted_37, _hoisted_38, _hoisted_39];
       }),
       _: 1
       /* STABLE */

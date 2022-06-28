@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdateLinkRequest;
 use App\Models\Link;
 use App\Models\LinkVisitor;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -13,14 +13,14 @@ class LinkController extends Controller
 {
     public function index()
     {
-        $links = Auth::user()->links;
-
-        return Inertia::render('Links/Index', ['links' => $links]);
+        return Inertia::render('Links/Index', ['links' => auth()->user()->links]);
     }
 
-    public function store(StoreUpdateLinkRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'url' => ['required'],
+        ]);
 
         $link = Link::create([
             'user_id' => auth()->id(),
@@ -33,13 +33,13 @@ class LinkController extends Controller
             session()->flash('flash.banner', 'Error shortening link!');
             session()->flash('flash.bannerStyle', 'success');
 
-            return redirect()->back();
+            return back();
         }
 
         session()->flash('flash.banner', 'Successfully shortened link!');
         session()->flash('flash.bannerStyle', 'success');
 
-        return redirect()->back()->with('link', $link);
+        return back()->with('link', $link);
     }
 
     public function show(Link $link)

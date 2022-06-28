@@ -58,15 +58,11 @@
                                         Manage Link
                                     </div>
 
-                                    <button type="button" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition" @click="isCreatingLink = !isCreatingLink">Edit</button>
+                                    <button type="button"
+                                        class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">Edit</button>
 
-                                    <JetDropdownLink>
-                                        Edit
-                                    </JetDropdownLink>
-
-                                    <JetDropdownLink>
-                                        Delete
-                                    </JetDropdownLink>
+                                    <button type="button"
+                                        class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 hover:text-red-600 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">Delete</button>
                                 </template>
                             </JetDropdown>
                         </div>
@@ -134,13 +130,11 @@
                                     Manage Link
                                 </div>
 
-                                <JetDropdownLink>
-                                    Edit
-                                </JetDropdownLink>
+                                <button type="button"
+                                    class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">Edit</button>
 
-                                <JetDropdownLink>
-                                    Delete
-                                </JetDropdownLink>
+                                <button type="button"
+                                    class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 hover:text-red-600 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">Delete</button>
                             </template>
                         </JetDropdown>
                     </div>
@@ -159,6 +153,5 @@ import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
 defineProps({
     isGridView: Boolean,
     links: Object,
-    isCreatingLink: Boolean
 });
 </script>
