@@ -2,89 +2,82 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateLinkRequest;
 use App\Models\Link;
 use App\Models\LinkVisitor;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class LinkController extends Controller
 {
     public function index()
     {
-        $links = Link::where('user_id', auth()->id())->with('visitors')->get();
-
-        return Inertia::render('Links/Index', ['links' => $links]);
+        return Inertia::render('Links/Index', ['links' => auth()->user()->links]);
     }
 
     public function store(Request $request)
     {
-        // At some point need to improve this to check if the code already exists.
         $validated = $request->validate([
-            'url' => ['required']
+            'url' => ['required'],
         ]);
 
         $link = Link::create([
             'user_id' => auth()->id(),
-            'url' => $validated["url"],
+            'url' => $validated['url'],
             'code' => Str::random(6),
             'expired_at' => now()->addMonth(),
         ]);
 
-        if(!$link)
-        {
+        if (! $link) {
             session()->flash('flash.banner', 'Error shortening link!');
             session()->flash('flash.bannerStyle', 'success');
 
-            return redirect()->back();
+            return back();
         }
 
         session()->flash('flash.banner', 'Successfully shortened link!');
         session()->flash('flash.bannerStyle', 'success');
 
-        return redirect()->back()->with('link', $link);
+        return back()->with('link', $link);
     }
 
     public function show(Link $link)
     {
-        if(now() >= $link->expired_at || $link->trashed())
-        {
-            abort(404);
-        }
-
         LinkVisitor::create([
             'link_id' => $link->id,
             'user_id' => auth()->id() ?? null,
             'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent()
+            'user_agent' => request()->userAgent(),
         ]);
+
+        // This is below as we still want to log a visit to the link - it just shouldn't redirect.
+        if (now() >= $link->expired_at || $link->trashed()) {
+            abort(404);
+        }
 
         return redirect()->away($link->url);
     }
 
     public function info(Link $link)
     {
-        return Inertia::render('Links/Info', ['link' => $link]);
+        return Inertia::render('Links/Info', ['link' => $link->with('visitors')->get()]);
     }
 
-    public function update(Request $request, Link $link)
+    public function update(StoreUpdateLinkRequest $request, Link $link)
     {
-        if(auth()->id() != $link->user_id)
-        {
+        if (auth()->id() != $link->user_id) {
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
-            'url' => ['required']
-        ]);
+        $validated = $request->validated();
 
         $link->update($validated);
     }
 
     public function destroy(Link $link)
     {
-        if(auth()->id() != $link->user_id)
-        {
+        if (auth()->id() != $link->user_id) {
             abort(403, 'Unauthorized action.');
         }
 

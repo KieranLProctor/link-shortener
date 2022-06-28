@@ -6,8 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -18,7 +17,7 @@ return new class extends Migration
         Schema::create('link_visitors', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Link::class)->constrained();
-            $table->foreignIdFor(User::class)->nullable()->constrained(); // This is to see if users of the shortener are also visiting the links.
+            $table->foreignIdFor(User::class)->nullable()->index(); // This is to see if users of the shortener are also visiting the links.
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->timestamps();

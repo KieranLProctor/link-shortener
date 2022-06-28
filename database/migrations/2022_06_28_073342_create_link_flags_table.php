@@ -1,11 +1,14 @@
 <?php
 
 use App\Models\User;
+use App\Models\Link;
+use App\Models\LinkReportReason;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -13,13 +16,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('links', function (Blueprint $table) {
+        Schema::create('link_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();
-            $table->string('code');
-            $table->string('url');
-            $table->dateTime('expired_at')->nullable();
-            $table->softDeletes();
+            $table->foreignIdFor(Link::class)->constrained();
+            $table->foreignIdFor(User::class)->nullable()->index();
+            $table->foreignIdFor(LinkReportReason::class)->constrained();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('links');
+        Schema::dropIfExists('link_reports');
     }
 };
