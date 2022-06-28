@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUpdateLinkRequest;
+use App\Http\Requests\StoreLinkRequest;
+use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Link;
 use App\Models\LinkVisitor;
 use Illuminate\Http\Request;
@@ -16,18 +17,9 @@ class LinkController extends Controller
         return Inertia::render('Links/Index', ['links' => auth()->user()->links]);
     }
 
-    public function store(Request $request)
+    public function store(StoreLinkRequest $request)
     {
-        $validated = $request->validate([
-            'url' => ['required'],
-        ]);
-
-        $link = Link::create([
-            'user_id' => auth()->id(),
-            'url' => $validated['url'],
-            'code' => Str::random(6),
-            'expired_at' => now()->addMonth(),
-        ]);
+        $link = Link::create($request->validated());
 
         if (! $link) {
             session()->flash('flash.banner', 'Error shortening link!');
@@ -59,20 +51,15 @@ class LinkController extends Controller
         return redirect()->away($link->url);
     }
 
-    public function info(Link $link)
-    {
-        return Inertia::render('Links/Info', ['link' => $link->with('visitors')->get()]);
-    }
-
-    public function update(StoreUpdateLinkRequest $request, Link $link)
+    public function update(UpdateLinkRequest $request, Link $link)
     {
         if (auth()->id() != $link->user_id) {
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validated();
+        $link->update($request->validated());
 
-        $link->update($validated);
+        return back();
     }
 
     public function destroy(Link $link)

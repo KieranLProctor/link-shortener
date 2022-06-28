@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\LinkController;
-use App\Http\Controllers\LinkReportController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,8 +35,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('/links', LinkController::class);
-
-    Route::get('/links/{link}/info', [LinkController::class, 'info'])->name('links.info');
+    Route::get('/links/{link}/info', LinkInfoController::class)->name('links.info');
 
     // Route::get('/links/{link}/report', [LinkReportController::class, 'create'])->name('link-reports.create');
     // Route::post('/links/{link}/report', [LinkReportController::class, 'store'])->name('link-reports.store');
