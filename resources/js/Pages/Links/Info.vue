@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import AppLayout from "@/Layouts/AppLayout";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Inertia } from '@inertiajs/inertia';
 import { ref } from "vue";
 import JetButton from '@/Jetstream/Button.vue';
