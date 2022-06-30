@@ -16,6 +16,6 @@ class LinkInfoController extends Controller
      */
     public function __invoke(Link $link)
     {
-        return Inertia::render('Links/Info', ['link' => $link->with('visitors')->get()]);
+        return Inertia::render('Links/Info', ['link' => $link]);
     }
 }

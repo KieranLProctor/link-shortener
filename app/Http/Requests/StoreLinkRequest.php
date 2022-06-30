@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -27,8 +28,8 @@ class StoreLinkRequest extends FormRequest
         return [
             'user_id' => ['required'],
             'url' => ['required'],
-            'code' => ['required'],
-            'expired_at' => ['required'],
+            'code' => ['required', 'unique:links'],
+            'expires_at' => ['required'],
         ];
     }
 
@@ -42,7 +43,7 @@ class StoreLinkRequest extends FormRequest
         $this->merge([
             'user_id' => $this->user()->id,
             'code' => Str::random(6),
-            'expired_at' => now()->addMonth(),
+            'expires_at' => Carbon::now()->addMonth(),
         ]);
     }
 }

@@ -36,7 +36,7 @@
 
                     <div class="flex items-center justify-between mt-7">
                         <div>
-                            <LinkStatus :status="link.is_expired ? 'Expired' : 'Active'" />
+                            <LinkStatus :status="link.current_status" />
                         </div>
                         <div class="ml-3 relative">
                             <JetDropdown align="right" width="36">
@@ -108,7 +108,7 @@
                 </div>
                 <div class="flex items-center">
                     <div class="ml-6">
-                        <LinkStatus :status="link.is_expired ? 'Expired' : 'Active'" />
+                        <LinkStatus :status="link.current_status" />
                     </div>
                     <div class="ml-6 relative pt-1">
                         <JetDropdown align="right" width="36">
