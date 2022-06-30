@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\StoreLinkVisitorRequest;
 use App\Http\Requests\UpdateLinkRequest;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Link;
 use App\Models\LinkVisitor;
 use Inertia\Inertia;
@@ -20,6 +21,7 @@ class LinkController extends Controller
     {
         try {
             $link = Link::create($request->validated());
+            $link->setStatus('active');
 
             session()->flash('flash.banner', 'Successfully shortened link!');
             session()->flash('flash.bannerStyle');
@@ -37,20 +39,23 @@ class LinkController extends Controller
     {
         LinkVisitor::create($request->validated());
 
-        // This is below as we still want to log a visit to the link - it just shouldn't redirect.
-        if (now() >= $link->expired_at || $link->trashed()) {
-            abort(410);
+        // TODO: Move this to a better place?
+        if($link->expires_at >= now() && $link->status != 'expired')
+        {
+            $link->setStatus('expired');
         }
 
-        //return redirect()->away($link->url);
+        // This is below as we still want to log a visit to the link - it just shouldn't redirect.
+        if ($link->status != 'active' || now() >= $link->expires_at || $link->trashed()) {
+            abort(401); // TODO: Change this to 410
+        }
+
+        return redirect()->away($link->url);
     }
 
     public function update(UpdateLinkRequest $request, Link $link)
     {
-        // TODO: Move this into a gate/middleware.
-        if (auth()->id() != $link->user_id) {
-            abort(403, 'Unauthorized action.');
-        }
+        Gate::authorize('update', $link);
 
         $link->update($request->validated());
 
@@ -59,11 +64,9 @@ class LinkController extends Controller
 
     public function destroy(Link $link)
     {
-        // TODO: Move this into a gate/middleware.
-        if (auth()->id() != $link->user_id) {
-            abort(403, 'Unauthorized action.');
-        }
+        Gate::authorize('delete', $link);
 
+        $link->setStatus('deleted');
         $link->delete();
 
         return redirect()->route('links.index')->with('message', 'Successfully deleted link!');

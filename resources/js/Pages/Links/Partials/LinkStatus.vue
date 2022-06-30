@@ -21,15 +21,25 @@ const classes = {
 };
 
 switch (props.status) {
-    case 'Active':
+    case 'active':
         classes.badge = 'bg-green-100 text-green-800';
         classes.circle = 'bg-green-800';
-        text.value = props.status;
+        text.value = 'Active';
         break;
-    case 'Expired':
+    case 'expired':
+        classes.badge = 'bg-yellow-100 text-yellow-800';
+        classes.circle = 'bg-yellow-800';
+        text.value = 'Expired';
+        break;
+    case 'on-hold':
+        classes.badge = 'bg-purple-100 text-purple-800';
+        classes.circle = 'bg-purple-800';
+        text.value = 'On Hold';
+        break;
+    case 'blocked':
         classes.badge = 'bg-red-100 text-red-800';
         classes.circle = 'bg-red-800';
-        text.value = props.status;
+        text.value = 'Blocked';
         break;
     default:
         classes.badge = 'bg-gray-100 text-gray-800';
