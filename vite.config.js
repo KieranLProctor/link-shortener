@@ -4,12 +4,12 @@ import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     server: {
-      https: true,
+      https: false,
       host: 'localhost'
     },
     plugins: [
         laravel([
-            'resources/css/app.css',
+            // 'resources/css/app.css',
             'resources/js/app.js',
         ]),
         vue({
