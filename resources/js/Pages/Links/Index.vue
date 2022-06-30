@@ -44,9 +44,10 @@
                                 </svg>
                             </button>
                             <button
-                                class="inline-flex items-center justify-center ml-0.5 px-3 py-2 text-gray-900 text-sm font-semibold"
-                                :class="{ 'bg-gray-200': !isGridView }" @click="isGridView = false"><svg xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                class="inline-flex items-center justify-center px-3 py-2 text-gray-900 text-sm font-semibold"
+                                :class="{ 'bg-gray-200': !isGridView }" @click="isGridView = false"><svg
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" class="w-5 h-5 text-gray-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 6h16M4 10h16M4 14h16M4 18h16">
                                     </path>
@@ -56,7 +57,7 @@
                     </div>
                 </div>
 
-                <LinkCards :isGridView="isGridView" :links="links" />
+                <LinkCards :isGridView="isGridView" :links="links" @delete="openDeleteModal(link)" />
             </div>
         </div>
 
@@ -82,15 +83,39 @@
                 </JetButton>
             </template>
         </JetDialogModal>
+
+        <JetConfirmationModal :show="isDeletingLink" @close="closeDeleteModal">
+            <template #title>
+                Delete Link
+            </template>
+
+            <template #content>
+                Are you sure you want to delete this link? Once this link is deleted it will no longer work but you will
+                still be able to see analytics.
+            </template>
+
+            <template #footer>
+                <JetSecondaryButton @click.native="closeDeleteModal">
+                    Nevermind
+                </JetSecondaryButton>
+
+                <JetDangerButton class="ml-2" @click.native="deleteLink(selectedLink)"
+                    :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Delete</JetDangerButton>
+            </template>
+        </JetConfirmationModal>
     </AppLayout>
 </template>
 
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import { ref } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import JetButton from '@/Jetstream/Button.vue';
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue';
 import JetDialogModal from '@/Jetstream/DialogModal.vue';
+import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue';
+import JetDangerButton from '@/Jetstream/DangerButton.vue';
 import JetInput from '@/Jetstream/Input.vue';
 import JetLabel from '@/Jetstream/Label.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
@@ -106,6 +131,8 @@ defineProps({
 
 const isGridView = ref(true);
 const isCreatingLink = ref(false);
+const isDeletingLink = ref(false);
+const selectedLink = ref(null);
 
 const openCreateModal = () => {
     isCreatingLink.value = true;
@@ -128,6 +155,24 @@ const createLink = () => {
             closeCreateModal();
         },
     }));
+}
+
+const openDeleteModal = (link) => {
+    isDeletingLink.value = true;
+    selectedLink.value = link;
+}
+
+const closeDeleteModal = () => {
+    isDeletingLink.value = false;
+}
+
+const deleteLink = (link) => {
+    console.log(link);
+
+    // Inertia.delete(route('links.destroy', selectedLink.value), {
+    //     preserveScroll: true,
+    //     onSuccess: () => console.log('Deleted'),
+    // });
 }
 </script>
 

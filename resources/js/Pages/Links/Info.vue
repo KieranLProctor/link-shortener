@@ -7,7 +7,7 @@
                 </h2>
 
                 <div class="space-x-6">
-                    <button class="text-gray-700 hover:text-red-600 text-sm">Delete</button>
+                    <button @click="openDeleteModal" class="text-gray-700 hover:text-red-600 text-sm">Delete</button>
                     <button
                         class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent font-semibold text-sm text-white tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
                         @click="openUpdateModal">Update Link
@@ -29,7 +29,7 @@
             <template #content>
                 <JetLabel for="url" value="Url" />
                 <JetInput id="url" v-model="form.url" type="text" class="mt-1 block w-full" />
-                <!-- <JetInputError :message="form.errors.url" class="mt-2" /> -->
+                <JetInputError :message="form.errors.url" class="mt-2" />
             </template>
 
             <template #footer>
@@ -44,7 +44,7 @@
             </template>
         </JetDialogModal>
 
-        <JetConfirmationModal :show="isDeletingLink" @close="closeConfirmModal">
+        <JetConfirmationModal :show="isDeletingLink" @close="closeDeleteModal">
             <template #title>
                 Delete Link
             </template>
@@ -55,20 +55,19 @@
             </template>
 
             <template #footer>
-                <JetSecondaryButton @click.native="closeConfirmModal">
+                <JetSecondaryButton @click.native="closeDeleteModal">
                     Nevermind
                 </JetSecondaryButton>
 
-                <!-- <JetDangerButton class="ml-2" @click.native="deleteLink(link)" :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"> -->
-                <JetDangerButton class="ml-2" @click.native="deleteLink">Delete</JetDangerButton>
+                <JetDangerButton class="ml-2" @click.native="deleteLink(link)"
+                    :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Delete</JetDangerButton>
             </template>
         </JetConfirmationModal>
     </AppLayout>
 </template>
 
 <script setup>
-import AppLayout from "@/Layouts/AppLayout";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Inertia } from '@inertiajs/inertia';
 import { ref } from "vue";
 import JetButton from '@/Jetstream/Button.vue';
@@ -91,11 +90,11 @@ const form = useForm({
 const isDeletingLink = ref(false);
 const isUpdatingLink = ref(false);
 
-const openConfirmModal = () => {
+const openDeleteModal = () => {
     isDeletingLink.value = true;
 }
 
-const closeConfirmModal = () => {
+const closeDeleteModal = () => {
     isDeletingLink.value = false;
 }
 
