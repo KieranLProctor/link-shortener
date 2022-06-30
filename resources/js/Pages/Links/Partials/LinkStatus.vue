@@ -31,7 +31,7 @@ switch (props.status) {
         classes.circle = 'bg-yellow-800';
         text.value = 'Expired';
         break;
-    case 'on-hold':
+    case 'on hold':
         classes.badge = 'bg-purple-100 text-purple-800';
         classes.circle = 'bg-purple-800';
         text.value = 'On Hold';

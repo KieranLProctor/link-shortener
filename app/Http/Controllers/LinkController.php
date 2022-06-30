@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LinkStatus;
 use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\StoreLinkVisitorRequest;
 use App\Http\Requests\UpdateLinkRequest;
@@ -21,7 +22,7 @@ class LinkController extends Controller
     {
         try {
             $link = Link::create($request->validated());
-            $link->setStatus('active');
+            $link->setStatus(LinkStatus::ACTIVE->value);
 
             session()->flash('flash.banner', 'Successfully shortened link!');
             session()->flash('flash.bannerStyle');
@@ -40,13 +41,13 @@ class LinkController extends Controller
         LinkVisitor::create($request->validated());
 
         // TODO: Move this to a better place?
-        if($link->expires_at >= now() && $link->status != 'expired')
+        if($link->expires_at >= now() && $link->status != LinkStatus::EXPIRED->value)
         {
-            $link->setStatus('expired');
+            $link->setStatus(LinkStatus::EXPIRED->value);
         }
 
         // This is below as we still want to log a visit to the link - it just shouldn't redirect.
-        if ($link->status != 'active' || now() >= $link->expires_at || $link->trashed()) {
+        if ($link->status != LinkStatus::ACTIVE->value || now() >= $link->expires_at || $link->trashed()) {
             abort(401); // TODO: Change this to 410
         }
 
@@ -66,7 +67,7 @@ class LinkController extends Controller
     {
         Gate::authorize('delete', $link);
 
-        $link->setStatus('deleted');
+        $link->setStatus(LinkStatus::DELETED->value);
         $link->delete();
 
         return redirect()->route('links.index')->with('message', 'Successfully deleted link!');
