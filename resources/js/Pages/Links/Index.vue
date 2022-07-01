@@ -57,10 +57,12 @@
                     </div>
                 </div>
 
-                <LinkCards :isGridView="isGridView" :links="links" @delete="(link) => openDeleteModal(link)" />
+                <LinkCards :isGridView="isGridView" :links="links" @update="(link) => openUpdateModal(link)"
+                    @delete="(link) => openDeleteModal(link)" />
             </div>
         </div>
 
+        <!-- TODO: Combine the Create & Update modals. -->
         <JetDialogModal :show="isCreatingLink" @close="isCreatingLink = false">
             <template #title>
                 Shorten Link
@@ -81,6 +83,30 @@
                 <JetButton class="ml-2" @click.native="createLink" :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing">
                     Shorten
+                </JetButton>
+            </template>
+        </JetDialogModal>
+
+        <JetDialogModal :show="isUpdatingLink" @close="isUpdatingLink = false">
+            <template #title>
+                Update Link
+            </template>
+
+            <template #content>
+                <JetLabel for="url" value="Url" />
+                <JetInput id="url" v-model="formUpdate.url" type="text" class="mt-1 block w-full" />
+                <!-- <input type="text" id="url" name="url" v-model="form.url" class="mt-1 block w-full border border-gray-200 focus:border-black focus:outline-none appearance-none focus:ring-0" required /> -->
+                <JetInputError :message="formUpdate.errors.url" class="mt-2" />
+            </template>
+
+            <template #footer>
+                <JetSecondaryButton @click.native="closeUpdateModal">
+                    Nevermind
+                </JetSecondaryButton>
+
+                <JetButton class="ml-2" @click.native="updateLink(selectedLink)"
+                    :class="{ 'opacity-25': formUpdate.processing }" :disabled="formUpdate.processing">
+                    Update
                 </JetButton>
             </template>
         </JetDialogModal>
@@ -121,7 +147,13 @@ import JetLabel from '@/Jetstream/Label.vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import LinkCards from '@/Pages/Links/Partials/LinkCards.vue';
 
+// TODO: Combine all forms & create & updte logic.
 const form = useForm({
+    url: null
+});
+
+const formUpdate = useForm({
+    _method: 'PUT',
     url: null
 });
 
@@ -131,29 +163,50 @@ defineProps({
 
 const isGridView = ref(true);
 const isCreatingLink = ref(false);
+const isUpdatingLink = ref(false);
 const isDeletingLink = ref(false);
 const selectedLink = ref(null);
 
-const openCreateModal = () => {
+const openCreateModal = (link) => {
     isCreatingLink.value = true;
 }
 
 const closeCreateModal = () => {
     isCreatingLink.value = false;
-    reset();
-}
-
-const reset = () => {
     form.reset();
 }
 
-const createLink = () => {
-    form.post(route('links.store', {
+const createLink = (link) => {
+    Inertia.post(route('links.store', form), {
         preserveScroll: true,
-        onSuccess: () => console.log('success'),
+        onSuccess: () => console.log('su'),
         onError: (err) => console.log(err),
-        onFinish: () => console.log('done'),
-    }));
+    });
+}
+
+const openUpdateModal = (link) => {
+    isUpdatingLink.value = true;
+    selectedLink.value = link;
+    formUpdate.url = link.url;
+
+    console.log(formUpdate.url);
+}
+
+const closeUpdateModal = () => {
+    isUpdatingLink.value = false;
+    selectedLink.value = null;
+    formUpdate.reset();
+}
+
+const updateLink = (link) => {
+    console.log(link);
+
+
+    Inertia.put(route('links.update', link), {
+        preserveScroll: true,
+        onSuccess: () => closeUpdateModal(),
+        onError: (err) => console.log('error')
+    });
 }
 
 const openDeleteModal = (link) => {
