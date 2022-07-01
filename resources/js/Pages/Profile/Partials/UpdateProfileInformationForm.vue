@@ -33,7 +33,10 @@ const updateProfileInformation = () => {
     form.post(route('user-profile-information.update'), {
         errorBag: 'updateProfileInformation',
         preserveScroll: true,
-        onSuccess: () => clearPhotoFileInput(),
+        onSuccess: () => {
+            console.log('Inside');
+            clearPhotoFileInput()
+        },
     });
 };
 

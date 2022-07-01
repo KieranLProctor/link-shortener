@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <LinkCards :isGridView="isGridView" :links="links" @delete="openDeleteModal(link)" />
+                <LinkCards :isGridView="isGridView" :links="links" @delete="(link) => openDeleteModal(link)" />
             </div>
         </div>
 
@@ -68,7 +68,8 @@
 
             <template #content>
                 <JetLabel for="url" value="Url" />
-                <JetInput id="url" v-model="form.url" type="text" class="mt-1 block w-full" required />
+                <JetInput id="url" v-model="form.url" type="text" class="mt-1 block w-full" />
+                <!-- <input type="text" id="url" name="url" v-model="form.url" class="mt-1 block w-full border border-gray-200 focus:border-black focus:outline-none appearance-none focus:ring-0" required /> -->
                 <JetInputError :message="form.errors.url" class="mt-2" />
             </template>
 
@@ -90,8 +91,7 @@
             </template>
 
             <template #content>
-                Are you sure you want to delete this link? Once this link is deleted it will no longer work but you will
-                still be able to see analytics.
+                Are you sure you want to delete this link? Once this link is deleted it will no longer work.
             </template>
 
             <template #footer>
@@ -144,16 +144,15 @@ const closeCreateModal = () => {
 }
 
 const reset = () => {
-    form.url = null;
+    form.reset();
 }
 
 const createLink = () => {
     form.post(route('links.store', {
-        errorBag: 'createLink',
         preserveScroll: true,
-        onSuccess: () => {
-            closeCreateModal();
-        },
+        onSuccess: () => console.log('success'),
+        onError: (err) => console.log(err),
+        onFinish: () => console.log('done'),
     }));
 }
 
@@ -167,12 +166,11 @@ const closeDeleteModal = () => {
 }
 
 const deleteLink = (link) => {
-    console.log(link);
-
-    // Inertia.delete(route('links.destroy', selectedLink.value), {
-    //     preserveScroll: true,
-    //     onSuccess: () => console.log('Deleted'),
-    // });
+    Inertia.delete(route('links.destroy', link), {
+        preserveScroll: true,
+        onSuccess: () => closeDeleteModal(),
+        onError: (err) => console.log(err)
+    });
 }
 </script>
 

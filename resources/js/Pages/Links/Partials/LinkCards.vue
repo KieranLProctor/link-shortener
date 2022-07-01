@@ -61,7 +61,7 @@
                                     <button type="button"
                                         class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">Edit</button>
 
-                                    <button type="button" @click="$emit('delete', link.id)"
+                                    <button type="button" @click="$emit('delete', link)"
                                         class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 hover:text-red-600 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">Delete</button>
                                 </template>
                             </JetDropdown>
