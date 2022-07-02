@@ -67,9 +67,17 @@ class LinkController extends Controller
     {
         Gate::authorize('delete', $link);
 
-        $link->setStatus(LinkStatus::DELETED->value);
-        $link->delete();
+        try {
+            $link->setStatus(LinkStatus::DELETED->value);
+            $link->delete();
 
-        return redirect()->route('links.index')->with('message', 'Successfully deleted link!');
+            session()->flash('flash.banner', 'Successfully deleted link!');
+            session()->flash('flash.bannerStyle');
+        } catch (\Exception $ex) {
+            session()->flash('flash.banner', 'Error deleting link!');
+            session()->flash('flash.bannerStyle', 'error');
+        }
+
+        return redirect()->route('links.index');
     }
 }
