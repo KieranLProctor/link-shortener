@@ -177,9 +177,9 @@ const closeCreateModal = () => {
 }
 
 const createLink = (link) => {
-    Inertia.post(route('links.store', form), {
+    form.post(route('links.store', form), {
         preserveScroll: true,
-        onSuccess: () => console.log('su'),
+        onSuccess: () => closeCreateModal(),
         onError: (err) => console.log(err),
     });
 }
@@ -188,8 +188,6 @@ const openUpdateModal = (link) => {
     isUpdatingLink.value = true;
     selectedLink.value = link;
     formUpdate.url = link.url;
-
-    console.log(formUpdate.url);
 }
 
 const closeUpdateModal = () => {
@@ -199,10 +197,7 @@ const closeUpdateModal = () => {
 }
 
 const updateLink = (link) => {
-    console.log(link);
-
-
-    Inertia.put(route('links.update', link), {
+    formUpdate.post(route('links.update', link), {
         preserveScroll: true,
         onSuccess: () => closeUpdateModal(),
         onError: (err) => console.log('error')
