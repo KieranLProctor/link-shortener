@@ -26,7 +26,7 @@ class LinkController extends Controller
             $link->setStatus(LinkStatus::ACTIVE->value);
 
             session()->flash('flash.banner', 'Successfully shortened link!');
-            session()->flash('flash.bannerStyle');
+            session()->flash('flash.bannerStyle', 'success');
 
             return back()->with('link', $link);
         } catch (\Exception $ex) {
@@ -49,7 +49,7 @@ class LinkController extends Controller
         }
 
         // This is below as we still want to log a visit to the link - it just shouldn't redirect.
-        if ($link->status != LinkStatus::ACTIVE->value || now() >= $link->expires_at || $link->trashed()) {
+        if ($link->status != LinkStatus::ACTIVE->value || (!is_null($link->expires_at) && $link->expires_at <= Carbon::now()) || $link->trashed()) {
             abort(410); // TODO: Change this to 410
         }
 
@@ -74,7 +74,7 @@ class LinkController extends Controller
             $link->delete();
 
             session()->flash('flash.banner', 'Successfully deleted link!');
-            session()->flash('flash.bannerStyle');
+            session()->flash('flash.bannerStyle', 'success');
         } catch (\Exception $ex) {
             session()->flash('flash.banner', 'Error deleting link!');
             session()->flash('flash.bannerStyle', 'error');
