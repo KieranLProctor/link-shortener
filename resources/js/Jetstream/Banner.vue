@@ -8,6 +8,8 @@ const message = computed(() => usePage().props.value.jetstream.flash?.banner || 
 
 watch(message, async () => {
     show.value = true;
+
+    setTimeout(() => show.value = false, 2000);
 });
 </script>
 
