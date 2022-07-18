@@ -43,14 +43,13 @@ class LinkController extends Controller
 
         // TODO: Move this to a better place?
         // is_null is to check links which don't expire.
-        if(!is_null($link->expires_at) && $link->expires_at <= Carbon::now() && $link->status != LinkStatus::EXPIRED->value)
-        {
+        if (!is_null($link->expires_at) && $link->expires_at <= now() && $link->status != LinkStatus::EXPIRED->value) {
             $link->setStatus(LinkStatus::EXPIRED->value);
         }
 
         // This is below as we still want to log a visit to the link - it just shouldn't redirect.
-        if ($link->status != LinkStatus::ACTIVE->value || (!is_null($link->expires_at) && $link->expires_at <= Carbon::now()) || $link->trashed()) {
-            abort(410); // TODO: Change this to 410
+        if ($link->status != LinkStatus::ACTIVE->value || (!is_null($link->expires_at) && $link->expires_at <= now()) || $link->trashed()) {
+            abort(410);
         }
 
         return redirect()->away($link->url);
